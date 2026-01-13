@@ -7,6 +7,7 @@ import solid.*;
 import transforms.Camera;
 import transforms.Mat4;
 import transforms.Mat4PerspRH;
+import transforms.Mat4Transl;
 import transforms.Vec3D;
 import view.Panel;
 
@@ -23,6 +24,8 @@ public class Controller3D {
     private Solid axisX = new AxisX();
     private Solid axisY = new AxisY();
     private Solid axisZ = new AxisZ();
+
+    private Solid cube = new Cube(1.0);
 
     private Camera camera;
     private Mat4 proj;
@@ -53,6 +56,8 @@ public class Controller3D {
                 proj
         );
 
+        cube.setModel(new Mat4Transl(0, 0.5, 0)); // posun pro lepší viditelnost
+
         initListeners();
 
         drawScene();
@@ -82,6 +87,8 @@ public class Controller3D {
         renderer.renderSolid(axisZ);
 
         renderer.renderSolid(arrow);
+
+        renderer.renderSolid(cube);
 
         panel.repaint();
     }
