@@ -7,7 +7,6 @@ import solid.*;
 import transforms.Camera;
 import transforms.Mat4;
 import transforms.Mat4PerspRH;
-import transforms.Mat4RotY;
 import transforms.Mat4Transl;
 import transforms.Point3D;
 import transforms.Vec3D;

@@ -1,4 +1,3 @@
-import controller.Controller2D;
 import controller.Controller3D;
 import view.Window;
 

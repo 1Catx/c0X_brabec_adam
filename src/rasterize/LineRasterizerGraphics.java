@@ -1,6 +1,5 @@
 package rasterize;
 
-import model.Line;
 import raster.RasterBufferedImage;
 import transforms.Col;
 

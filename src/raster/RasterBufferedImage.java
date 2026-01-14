@@ -2,8 +2,6 @@ package raster;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Optional;
-import java.util.OptionalInt;
 
 public class RasterBufferedImage implements Raster {
 
@@ -15,18 +13,24 @@ public class RasterBufferedImage implements Raster {
 
     @Override
     public void setPixel(int x, int y, int color) {
-        // TODO: ošetřit zápis mimo raster
+        int w = getWidth();
+        int h = getHeight();
+
+        if(x < 0 || x >= w) return;
+        if(y < 0 || y >= h) return;
+        
         image.setRGB(x, y, color);
     }
 
     @Override
-    public OptionalInt getPixel(int x, int y) {
-        // TODO: ošetřit načtení mimo raster
+    public int getPixel(int x, int y) {
+        int w = getWidth();
+        int h = getHeight();
 
-        // chci vrátit hodnotu
-        return OptionalInt.of(image.getRGB(x, y));
-        // jsem mimo raster
-        //return OptionalInt.empty();
+        if (x < 0 || x >= w) return 0;
+        if (y < 0 || y >= h) return 0;
+
+        return image.getRGB(x, y);
     }
 
     @Override
@@ -42,7 +46,7 @@ public class RasterBufferedImage implements Raster {
     @Override
     public void clear() {
         Graphics g = image.getGraphics();
-        g.clearRect(0, 0, image.getWidth(), image.getHeight());
+        g.clearRect(0, 0, getWidth(), getHeight());
     }
 
     public BufferedImage getImage() {

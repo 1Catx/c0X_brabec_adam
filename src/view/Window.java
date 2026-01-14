@@ -1,7 +1,6 @@
 package view;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class Window extends JFrame {
 
@@ -9,7 +8,7 @@ public class Window extends JFrame {
 
     public Window(int width, int heigth) {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setTitle("PGRF1 2024/2025");
+        setTitle("c03_brabec_adam");
         setVisible(true);
 
         panel = new Panel(width, heigth);
