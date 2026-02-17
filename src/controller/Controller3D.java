@@ -47,10 +47,6 @@ public class Controller3D {
     Point3D c1 = new Point3D(0, 0, 0);
     Point3D c2 = new Point3D(0.5, 1.5, 0.0);
 
-    private Solid bezierCurve = new BezierCurve(p0, b1, b2, p3);
-    private Solid fergusonCurve = new FergusonCurve(p0, f1, f2, p3);
-    private Solid coonsCurve = new CoonsCurve(p0, c1, c2, p3);
-
     private int lastX, lastY;
     private boolean mouseDown = false;
 
@@ -95,10 +91,6 @@ public class Controller3D {
 
         cube.setModel(new Mat4Transl(0.7, 0.5, 0)); // posun krychle
         prism.setModel(new Mat4Transl(-1.0, 0, 0)); //posun prismu
-
-        bezierCurve.setModel(cube.getModel());
-        fergusonCurve.setModel(cube.getModel());
-        coonsCurve.setModel(cube.getModel());
 
         initListeners();
 
@@ -182,10 +174,6 @@ public class Controller3D {
 
         renderer.renderSolid(cube);
         renderer.renderSolid(prism);
-
-        renderer.renderSolid(bezierCurve);
-        renderer.renderSolid(fergusonCurve);
-        renderer.renderSolid(coonsCurve);
 
         panel.repaint();
     }

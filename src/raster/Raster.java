@@ -1,9 +1,21 @@
 package raster;
 
-public interface Raster {
-    void setPixel(int x, int y, int color);
-    int getPixel(int x, int y);
+import java.util.Optional;
+
+public interface Raster<T> {
+
+    void setValue(int x, int y, T value);
+
+    Optional<T> getValue(int x, int y);
+
     int getWidth();
+
     int getHeight();
+
     void clear();
+
+    default boolean isInBounds(int x, int y) {
+        return x >= 0 && x < getWidth()
+            && y >= 0 && y < getHeight();
+    }
 }
