@@ -30,12 +30,9 @@ public class Controller3D {
     private Solid axisY = new AxisY();
     private Solid axisZ = new AxisZ();
 
-    private Solid cube = new Cube(1.0);
-    private Solid prism = new Prism(10, 0.5, 1.0);
-
-    // 2) LOKÁLNÍ vrcholy krychle
-    Point3D p0 = cube.getVb().get(0);
-    Point3D p3 = cube.getVb().get(6);
+    private Solid sphere = new Sphere(0.6, 16, 24);
+    private Solid tetra  = new Tetrahedron(0.9);
+    private Solid cone   = new Cone(0.5, 1.0, 24);
 
     // 3) Řídicí body PRO KAŽDOU KŘIVKU
     Point3D b1 = new Point3D(0, 1, 1.5);
@@ -89,8 +86,9 @@ public class Controller3D {
                 proj
         );
 
-        cube.setModel(new Mat4Transl(0.7, 0.5, 0)); // posun krychle
-        prism.setModel(new Mat4Transl(-1.0, 0, 0)); //posun prismu
+        sphere.setModel(new Mat4Transl(-1.0, 0.0, 0.0));
+        tetra.setModel(new Mat4Transl( 0.8, 0.0, 0.0));
+        cone.setModel (new Mat4Transl( 0.0, 0.0,-1.0));
 
         initListeners();
 
@@ -172,8 +170,9 @@ public class Controller3D {
 
         renderer.renderSolid(arrow);
 
-        renderer.renderSolid(cube);
-        renderer.renderSolid(prism);
+        renderer.renderSolid(sphere);
+        renderer.renderSolid(tetra);
+        renderer.renderSolid(cone);
 
         panel.repaint();
     }
