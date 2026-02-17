@@ -1,36 +1,32 @@
 package raster;
 
-import java.awt.*;
+import transforms.Col;
+
 import java.awt.image.BufferedImage;
+import java.util.Optional;
 
-public class RasterBufferedImage implements Raster {
+public class RasterBufferedImage implements Raster<Col> {
 
-    private BufferedImage image;
+    private final BufferedImage image;
 
     public RasterBufferedImage(int width, int height) {
-        image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    }
+
+    public RasterBufferedImage(BufferedImage image) {
+        this.image = image;
     }
 
     @Override
-    public void setPixel(int x, int y, int color) {
-        int w = getWidth();
-        int h = getHeight();
-
-        if(x < 0 || x >= w) return;
-        if(y < 0 || y >= h) return;
-        
-        image.setRGB(x, y, color);
+    public void setValue(int x, int y, Col value) {
+        if (!isInBounds(x, y) || value == null) return;
+        image.setRGB(x, y, value.getRGB());
     }
 
     @Override
-    public int getPixel(int x, int y) {
-        int w = getWidth();
-        int h = getHeight();
-
-        if (x < 0 || x >= w) return 0;
-        if (y < 0 || y >= h) return 0;
-
-        return image.getRGB(x, y);
+    public Optional<Col> getValue(int x, int y) {
+        if (!isInBounds(x, y)) return Optional.empty();
+        return Optional.of(new Col(image.getRGB(x, y)));
     }
 
     @Override
@@ -45,8 +41,11 @@ public class RasterBufferedImage implements Raster {
 
     @Override
     public void clear() {
-        Graphics g = image.getGraphics();
-        g.clearRect(0, 0, getWidth(), getHeight());
+        for (int y = 0; y < getHeight(); y++) {
+            for (int x = 0; x < getWidth(); x++) {
+                image.setRGB(x, y, 0x000000);
+            }
+        }
     }
 
     public BufferedImage getImage() {
