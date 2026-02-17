@@ -13,10 +13,6 @@ public class RasterBufferedImage implements Raster<Col> {
         this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     }
 
-    public RasterBufferedImage(BufferedImage image) {
-        this.image = image;
-    }
-
     @Override
     public void setValue(int x, int y, Col value) {
         if (!isInBounds(x, y) || value == null) return;

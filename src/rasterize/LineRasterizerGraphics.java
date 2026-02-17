@@ -17,9 +17,9 @@ public class LineRasterizerGraphics extends LineRasterizer {
         this.currentColor = new Color(col.getRGB());
     }
 
+    //Když chceme použít currentColor, tedy bez zadání barvy v args (poté zavolá Bresenhama)
     @Override
     public void rasterize(int x1, int y1, int x2, int y2) {
-        // use stored currentColour or default to white if null
         Col col = new Col(currentColor.getRGB());
         rasterize(x1, y1, x2, y2, col);
     }

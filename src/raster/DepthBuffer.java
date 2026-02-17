@@ -2,6 +2,7 @@ package raster;
 
 import java.util.Optional;
 
+//Je to pouze paměť, neřeší co je blíž nebo dál
 public class DepthBuffer implements Raster<Double> {
     private final double[][] buffer;
     private final int width;
@@ -11,13 +12,10 @@ public class DepthBuffer implements Raster<Double> {
         this.width = width;
         this.height = height;
         this.buffer = new double[width][height];
-        clear();
+        clear(); //nastaví všude pozitivní nekonečno
     }
 
-    private boolean inBounds(int x, int y) {
-        return x >= 0 && x < width && y >= 0 && y < height;
-    }
-
+    //Uloží depth pro pixel
     @Override
     public void setValue(int x, int y, Double value) {
         if (!isInBounds(x, y) || value == null) return;
