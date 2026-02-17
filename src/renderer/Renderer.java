@@ -64,10 +64,9 @@ public class Renderer {
         pointA = pointA.mul(1.0 / wA);
         pointB = pointB.mul(1.0 / wB);
 
-        // OŘEZÁNÍ: když je celý bod mimo [-1,1], hranu zahodíme
-        if (isOutsideNDC(pointA) || isOutsideNDC(pointB)) {
-            continue;
-        }
+        //RYCHLÉ OŘEZÁNÍ PODLE Z
+        if (pointA.getZ() < 0 || pointB.getZ() < 0) continue; //near plane
+        if (pointA.getZ() > 1 || pointB.getZ() > 1) continue; //far plane
 
         // TRANSFORMACE: do okna obrazovky, NDC -> screen space
         Vec3D vecA = transformToWindow(pointA);
@@ -95,11 +94,4 @@ public class Renderer {
     public void setProj(Mat4 proj) {
         this.proj = proj;
     }
-
-    private boolean isOutsideNDC(Point3D p) {
-    return p.getX() < -1 || p.getX() > 1
-        || p.getY() < -1 || p.getY() > 1
-        || p.getZ() < -1 || p.getZ() > 1;
-    }
-
 }
