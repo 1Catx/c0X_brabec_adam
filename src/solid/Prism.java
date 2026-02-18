@@ -50,8 +50,5 @@ public class Prism extends Solid {
         return i * 2 + 1;
     }
 
-    private void addEdge(int a, int b) {
-        ib.add(a);
-        ib.add(b);
-    }
+
 }

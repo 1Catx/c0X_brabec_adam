@@ -43,8 +43,4 @@ public class Cube extends Solid {
         addEdge(3, 7);
     }
 
-    private void addEdge(int a, int b) {
-        ib.add(a);
-        ib.add(b);
-    }
 }

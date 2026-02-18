@@ -43,8 +43,4 @@ public class Sphere extends Solid {
         return j * slices + i;
     }
 
-    private void addEdge(int a, int b) {
-        ib.add(a);
-        ib.add(b);
-    }
 }

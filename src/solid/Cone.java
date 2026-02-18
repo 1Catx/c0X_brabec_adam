@@ -31,8 +31,5 @@ public class Cone extends Solid {
         }
     }
 
-    private void addEdge(int a, int b) {
-        ib.add(a);
-        ib.add(b);
-    }
+
 }
