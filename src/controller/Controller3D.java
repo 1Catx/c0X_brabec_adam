@@ -149,6 +149,12 @@
                         case KeyEvent.VK_S -> camera = camera.backward(MOVE_SPEED);
                         case KeyEvent.VK_A -> camera = camera.left(MOVE_SPEED);
                         case KeyEvent.VK_D -> camera = camera.right(MOVE_SPEED);
+                        case KeyEvent.VK_M -> {
+                            renderer.setMode(renderer.getMode() == Renderer.RenderMode.WIREFRAME ? Renderer.RenderMode.FILLED : Renderer.RenderMode.WIREFRAME);
+                            drawScene();
+                            return;
+                        }
+
                         default -> { return; }
                     }
                     drawScene();
