@@ -14,6 +14,8 @@ public class Tetrahedron extends Solid {
         vb.add(new Point3D(-s, -s, +s)); // 1
         vb.add(new Point3D(-s, +s, -s)); // 2
         vb.add(new Point3D(+s, -s, -s)); // 3
+
+//otestovat jestli funguje
 addTriangle(0, 1, 2);
 addTriangle(0, 1, 3);
 addTriangle(0, 2, 3);

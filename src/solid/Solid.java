@@ -11,7 +11,7 @@ import java.util.List;
 public abstract class Solid {
     protected List<Point3D> vb = new ArrayList<>();
     protected List<Integer> ib = new ArrayList<>(); //hrany (2)
-    protected final List<Integer> ibTriangles = new ArrayList<>(); //trojúhelníky (3)
+    protected List<Integer> ibTriangles = new ArrayList<>(); //trojúhelníky (3)
     protected Col color = new Col(0xffffff);
     protected Mat4 model = new Mat4Identity();
 
