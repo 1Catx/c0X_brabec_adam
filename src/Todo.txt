@@ -2,12 +2,13 @@ Implementujte uložení těles pomocí vertex a index buferu, předpokládejte t
 Implementujte výběr aktivního tělesa. Modelovací transformace se budou aplikovat na aktivní těleso.
 Implementujte transformaci zobrazovacího objemu tj. projekci prostorové scény, možnost přepínání perspektivní a pravoúhlé projekce (klávesa P).
 Implementujte rasterizaci a algoritmus viditelnosti Z-buffer.
-Umožněte přepínání zobrazení drátového modelu a vyplněných ploch (klávesa M). Zobrazení se aplikuje na celou scénu.
 Obarvěte tělesa různou barvou. Barva může být konstantní nebo spočítaná interpolací barvy ve vrcholech.
 Implementujte mapovaní textury na povrch těles. Každé těleso bude mít jinou texturu.
 Umožněte zapnutí a vypnutí textury na aktivním tělese. Ostatní tělesa v ten moment zůstanou v původním režimu.
 Znázorněte soustavu souřadnic scény zobrazením barevně odlišených souřadnicových os. Osy budou mít podobu šipky (1 hrana a 1 trojúhelník).
+
 Implementujte osvětlení ve scéně (Phongův osvětlovací model). Do výpočtu zahrňte ambientní a difúzní složku. Spekulární složka bude počítána jako bonus.
 Pozici zdroje světla znázorněte jako kouli o vhodné velikosti. Barva koule bude odpovídat barvě difúzní složky.
 Zdroj světla lze zvolit jako aktivní těleso a aplikovat na něj modelovací transformaci posunutí.
+
 Natočte scénu a umístěte tělesa tak, aby byla zřejmá správná funkce algoritmu viditelnosti, vhodné je například protnutí dvou těles.

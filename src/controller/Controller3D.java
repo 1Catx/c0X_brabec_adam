@@ -35,6 +35,7 @@
         private Solid axisX = new AxisX();
         private Solid axisY = new AxisY();
         private Solid axisZ = new AxisZ();
+        private Solid cube = new Cube(0.9);
         private Solid sphere = new Sphere(0.6, 16, 24);
         private Solid tetra  = new Tetrahedron(0.9);
         private Solid cone   = new Cone(0.5, 1.0, 24);
@@ -96,7 +97,7 @@
                     proj
             );
 
-
+            cube.setModel(new Mat4Transl(1.8, 0.0, 0.0));
             sphere.setModel(new Mat4Transl(-1.0, 0.0, 0.0));
             tetra.setModel(new Mat4Transl( 0.8, 0.0, 0.0));
             cone.setModel (new Mat4Transl( 0.0, 0.0,-1.0));
@@ -185,9 +186,8 @@
             renderer.renderSolid(axisX);
             renderer.renderSolid(axisY);
             renderer.renderSolid(axisZ);
-
             renderer.renderSolid(arrow);
-
+            renderer.renderSolid(cube);
             renderer.renderSolid(sphere);
             renderer.renderSolid(tetra);
             renderer.renderSolid(cone);

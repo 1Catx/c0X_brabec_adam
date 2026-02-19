@@ -37,7 +37,22 @@ public class Sphere extends Solid {
                 }
             }
         }
+
+        // === Triangles ===
+        for (int j = 0; j < stacks; j++) {
+            for (int i = 0; i < slices; i++) {
+                int a = index(j, i, slices);
+                int b = index(j, (i + 1) % slices, slices);
+                int c = index(j + 1, i, slices);
+                int d = index(j + 1, (i + 1) % slices, slices);
+
+                addTriangle(a, c, b);
+                addTriangle(b, c, d);
+            }
+        }
     }
+
+
 
     private int index(int j, int i, int slices) {
         return j * slices + i;

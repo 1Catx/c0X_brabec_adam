@@ -26,8 +26,27 @@ public class Cone extends Solid {
             int next = baseStart + ((i + 1) % segments);
 
             addEdge(curr, next);
-
             addEdge(apexIndex, curr);
+        }
+
+        // === TRIANGLES plášť kuželu ===
+        //center základny
+        int centerIndex = vb.size();
+        vb.add(new Point3D(0, 0, 0));
+
+        for (int i = 0; i < segments; i++) {
+            int curr = baseStart + i;
+            int next = baseStart + ((i + 1) % segments);
+
+            //hrany
+            addEdge(curr, next);
+            addEdge(apexIndex, curr);
+
+            //plášť
+            addTriangle(apexIndex, curr, next);
+
+            //podstava; debugging = pokud postava zmízí prohodit curr/next
+            addTriangle(centerIndex, next, curr);
         }
     }
 

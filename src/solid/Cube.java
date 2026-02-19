@@ -23,7 +23,7 @@ public class Cube extends Solid {
         vb.add(new Point3D(+s, +s, +s));
         vb.add(new Point3D(-s, +s, +s));
 
-        // hrany (index buffer)
+        // === wire index buffer ===
         // spodní čtverec
         addEdge(0, 1);
         addEdge(1, 2);
@@ -41,6 +41,32 @@ public class Cube extends Solid {
         addEdge(1, 5);
         addEdge(2, 6);
         addEdge(3, 7);
+
+        // === triangle index buffer ===
+        // spodní stěna
+        addTriangle(0, 2, 1);
+        addTriangle(0, 3, 2);
+
+        // horní stěna
+        addTriangle(4, 5, 6);
+        addTriangle(4, 6, 7);
+
+        // přední stěna
+        addTriangle(0, 1, 5);
+        addTriangle(0, 5, 4);
+
+        // zadní stěna
+        addTriangle(3, 6, 2);
+        addTriangle(3, 7, 6);
+
+        // levá stěna
+        addTriangle(0, 7, 3);
+        addTriangle(0, 4, 7);
+
+        // pravá stěna
+        addTriangle(1, 2, 6);
+        addTriangle(1, 6, 5);
+
     }
 
 }
