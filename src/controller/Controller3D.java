@@ -95,7 +95,7 @@
 
             cube.setModel(new Mat4Transl(1.8, 0.0, 0.0));
             sphere.setModel(new Mat4Transl(-1.0, 0.0, 0.0));
-            tetra.setModel(new Mat4Transl( 0.8, 0.0, 0.0));
+            tetra.setModel(new Mat4Transl( -0.3, 0.2, 0.0));
             cone.setModel (new Mat4Transl( 0.0, 0.0,-1.0));
 
             initListeners();
@@ -199,6 +199,7 @@
                     0.1,
                     100
             );
+
             renderer.setProj(proj);  // předáme novou matici rendereru
         }
     }

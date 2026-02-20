@@ -12,3 +12,6 @@ Pozici zdroje světla znázorněte jako kouli o vhodné velikosti. Barva koule b
 Zdroj světla lze zvolit jako aktivní těleso a aplikovat na něj modelovací transformaci posunutí.
 
 Natočte scénu a umístěte tělesa tak, aby byla zřejmá správná funkce algoritmu viditelnosti, vhodné je například protnutí dvou těles.
+
+
+-- tetrahedron wire
