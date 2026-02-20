@@ -21,20 +21,16 @@
 
     import raster.ZBuffer;
 
-
-
-
-
     public class Controller3D {
         private final Panel panel;
         private LineRasterizer lineRasterizer;
         private Renderer renderer;
         private ZBuffer zbuffer;
 
-        private Solid arrow = new Arrow();
-        private Solid axisX = new AxisX();
-        private Solid axisY = new AxisY();
-        private Solid axisZ = new AxisZ();
+        private Solid arrowX = new ArrowX();
+        private Solid arrowY = new ArrowY();
+        private Solid arrowZ = new ArrowZ();
+
         private Solid cube = new Cube(0.9);
         private Solid sphere = new Sphere(0.6, 16, 24);
         private Solid tetra  = new Tetrahedron(0.9);
@@ -183,10 +179,10 @@
             renderer.setView(camera.getViewMatrix());
             renderer.setProj(proj);
 
-            renderer.renderSolid(axisX);
-            renderer.renderSolid(axisY);
-            renderer.renderSolid(axisZ);
-            renderer.renderSolid(arrow);
+            renderer.renderSolid(arrowX);        
+            renderer.renderSolid(arrowY);
+            renderer.renderSolid(arrowZ);
+
             renderer.renderSolid(cube);
             renderer.renderSolid(sphere);
             renderer.renderSolid(tetra);
