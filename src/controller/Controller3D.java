@@ -27,26 +27,18 @@
         private Renderer renderer;
         private ZBuffer zbuffer;
 
+        //Výběr aktivního tělesa
+        private final Solid[] solids;
+        private int activeIndex = 0;
+
+        //Objekty
         private Solid arrowX = new ArrowX();
         private Solid arrowY = new ArrowY();
         private Solid arrowZ = new ArrowZ();
-
         private Solid cube = new Cube(0.9);
         private Solid sphere = new Sphere(0.6, 16, 24);
         private Solid tetra  = new Tetrahedron(0.9);
         private Solid cone   = new Cone(0.5, 1.0, 24);
-
-        
-
-        // 3) Řídicí body PRO KAŽDOU KŘIVKU
-        Point3D b1 = new Point3D(0, 1, 1.5);
-        Point3D b2 = new Point3D(-1, 0.5, 0.2);
-
-        Point3D f1 = new Point3D(0, 0.2, 0.0);
-        Point3D f2 = new Point3D(0.1, 1.0, -1.0);
-
-        Point3D c1 = new Point3D(0, 0, 0);
-        Point3D c2 = new Point3D(0.5, 1.5, 0.0);
 
         private int lastX, lastY;
         private boolean mouseDown = false;
@@ -62,10 +54,9 @@
 
         public Controller3D(Panel panel) {
             this.panel = panel;
-
             this.panel.setFocusable(true);
+            this.panel.setFocusTraversalKeysEnabled(false);
             this.panel.requestFocusInWindow();
-
 
             lineRasterizer = new LineRasterizerGraphics(panel.getRaster());
 
@@ -93,9 +84,11 @@
                     proj
             );
 
+            solids = new Solid[] {sphere, cube, cone, tetra};
+            
             cube.setModel(new Mat4Transl(1.8, 0.0, 0.0));
-            sphere.setModel(new Mat4Transl(-1.0, 0.0, 0.0));
-            tetra.setModel(new Mat4Transl( -0.3, 0.2, 0.0));
+            sphere.setModel(new Mat4Transl(1.8, 0.0, 0.0));
+            tetra.setModel(new Mat4Transl( 0.5, 0.2, 0.0));
             cone.setModel (new Mat4Transl( 0.0, 0.0,-1.0));
 
             initListeners();
@@ -151,6 +144,31 @@
                             drawScene();
                             return;
                         }
+                        case KeyEvent.VK_TAB -> {
+                            activeIndex = (activeIndex + 1) % solids.length;
+                            drawScene();
+                            return;
+                        }
+                        case KeyEvent.VK_LEFT -> {
+                            moveActive(-MOVE_SPEED, 0, 0);
+                            drawScene();
+                            return;
+                        }
+                        case KeyEvent.VK_RIGHT -> {
+                            moveActive(+MOVE_SPEED, 0, 0);
+                            drawScene();
+                            return;
+                        }
+                        case KeyEvent.VK_UP -> {
+                            moveActive(0, 0, +MOVE_SPEED);
+                            drawScene();
+                            return;
+                        }
+                        case KeyEvent.VK_DOWN -> {
+                            moveActive(0, 0, -MOVE_SPEED);
+                            drawScene();
+                            return;
+                        }
 
                         default -> { return; }
                     }
@@ -182,7 +200,6 @@
             renderer.renderSolid(arrowX);        
             renderer.renderSolid(arrowY);
             renderer.renderSolid(arrowZ);
-
             renderer.renderSolid(cube);
             renderer.renderSolid(sphere);
             renderer.renderSolid(tetra);
@@ -201,5 +218,10 @@
             );
 
             renderer.setProj(proj);  // předáme novou matici rendereru
+        }
+
+        private void moveActive(double dx, double dy, double dz) {
+            Solid s = solids[activeIndex];
+            s.setModel(s.getModel().mul(new Mat4Transl(dx, dy, dz)));
         }
     }
