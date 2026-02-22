@@ -2,6 +2,7 @@ package solid;
 
 import transforms.Col;
 import transforms.Point3D;
+import transforms.Vec2D;
 
 public class Sphere extends Solid {
 
@@ -21,6 +22,11 @@ public class Sphere extends Solid {
                 double x = r * Math.cos(phi);
                 double z = r * Math.sin(phi);
                 vb.add(new Point3D(x, y, z));
+
+                //u,v pro texturu
+                double u = i / (double) slices;
+                double v = j / (double) stacks;
+                vtb.add(new Vec2D(u, v));
             }
         }
 
@@ -51,8 +57,6 @@ public class Sphere extends Solid {
             }
         }
     }
-
-
 
     private int index(int j, int i, int slices) {
         return j * slices + i;

@@ -2,6 +2,7 @@ package solid;
 
 import transforms.Col;
 import transforms.Point3D;
+import transforms.Vec2D;
 
 public class Cube extends Solid {
 
@@ -67,6 +68,12 @@ public class Cube extends Solid {
         addTriangle(1, 2, 6);
         addTriangle(1, 6, 5);
 
+        //mapování UV
+        for (Point3D p : vb) {
+            double u = (p.getX() / size) + 0.5;
+            double v = (p.getY() / size) + 0.5;
+            vtb.add(new Vec2D(u, v));
+        }
     }
 
 }

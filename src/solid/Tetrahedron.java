@@ -2,6 +2,7 @@ package solid;
 
 import transforms.Col;
 import transforms.Point3D;
+import transforms.Vec2D;
 
 public class Tetrahedron extends Solid {
 
@@ -14,6 +15,11 @@ public class Tetrahedron extends Solid {
         vb.add(new Point3D(-s, -s, +s));
         vb.add(new Point3D(-s, +s, -s));
         vb.add(new Point3D(+s, -s, -s));
+
+        vtb.add(new Vec2D(0.5, 1.0));
+        vtb.add(new Vec2D(0.0, 0.0));
+        vtb.add(new Vec2D(1.0, 0.0));
+        vtb.add(new Vec2D(0.5, 0.5));
 
         addEdge(0, 1);
         addEdge(0, 2);

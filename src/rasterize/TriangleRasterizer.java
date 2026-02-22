@@ -1,6 +1,7 @@
 package rasterize;
 
 import renderer.VertexOut;
+import texture.Texture;
 import raster.ZBuffer;
 import transforms.Col;
 
@@ -16,7 +17,7 @@ public class TriangleRasterizer {
         return (px - ax) * (by - ay) - (py - ay) * (bx - ax);
     }
 
-    public void rasterize(VertexOut a, VertexOut b, VertexOut c, Col color) {
+    public void rasterize(VertexOut a, VertexOut b, VertexOut c, Col fallbackColor, Texture texture) {
         int minX = (int) Math.floor(Math.min(a.x, Math.min(b.x, c.x)));
         int maxX = (int) Math.ceil (Math.max(a.x, Math.max(b.x, c.x)));
         int minY = (int) Math.floor(Math.min(a.y, Math.min(b.y, c.y)));
@@ -34,10 +35,7 @@ public class TriangleRasterizer {
                 double w1 = edge(c.x, c.y, a.x, a.y, px, py);
                 double w2 = edge(a.x, a.y, b.x, b.y, px, py);
 
-                if ((area > 0 && (w0 < 0 || w1 < 0 || w2 < 0)) ||
-                    (area < 0 && (w0 > 0 || w1 > 0 || w2 > 0))) {
-                    continue;
-                }
+                if ((area > 0 && (w0 < 0 || w1 < 0 || w2 < 0)) || (area < 0 && (w0 > 0 || w1 > 0 || w2 > 0))) continue;
 
                 double alpha = w0 / area;
                 double beta  = w1 / area;
@@ -45,7 +43,22 @@ public class TriangleRasterizer {
 
                 double z = alpha * a.z + beta * b.z + gamma * c.z;
 
-                zbuffer.setPixelWithZTest(x, y, z, color);
+                Col out = fallbackColor;
+
+                if (texture != null) {
+                    double invW = alpha * a.invW + beta * b.invW + gamma * c.invW;
+                    if (Math.abs(invW) > 1e-12) {
+                        double uOverW = alpha * a.uOverW + beta * b.uOverW + gamma * c.uOverW;
+                        double vOverW = alpha * a.vOverW + beta * b.vOverW + gamma * c.vOverW;
+
+                        double u = uOverW / invW;
+                        double v = vOverW / invW;
+
+                        out = texture.sample(u, v);
+                    }
+                }
+
+                zbuffer.setPixelWithZTest(x, y, z, out);
             }
         }
     }
