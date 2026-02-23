@@ -10,20 +10,17 @@ import texture.Texture;
 
 import transforms.Camera;
 import transforms.Mat4;
+import transforms.Mat4OrthoRH;
 import transforms.Mat4PerspRH;
 import transforms.Mat4RotX;
 import transforms.Mat4RotY;
 import transforms.Mat4Transl;
-import transforms.Point3D;
 import transforms.Vec3D;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-
 
 public class Controller3D {
     private final Panel panel;
@@ -43,6 +40,7 @@ public class Controller3D {
     private Solid sphere = new Sphere(0.6, 16, 24);
     private Solid tetra  = new Tetrahedron(0.9);
     private Solid cone   = new Cone(0.5, 1.0, 24);
+    private Solid light = new Sphere(0.12, 12, 18);
 
     private int lastX, lastY;
     private boolean mouseDown = false;
@@ -55,6 +53,9 @@ public class Controller3D {
 
     private Camera camera;
     private Mat4 proj;
+
+    private boolean perspective = true; // start v perspektivě
+    private double orthoSize = 5.5;     // výška ortho boxu
 
     public Controller3D(Panel panel) {
         this.panel = panel;
@@ -88,17 +89,19 @@ public class Controller3D {
                 proj
         );
 
-        solids = new Solid[] {sphere, cube, cone, tetra};
+        solids = new Solid[] {sphere, cube, cone, tetra, light};
 
         cube.setModel(new Mat4Transl(1.8, 0.0, 0.0));
         sphere.setModel(new Mat4Transl(1.8, 0.0, 0.0));
         tetra.setModel(new Mat4Transl( 0.5, 0.2, 0.0));
         cone.setModel (new Mat4Transl( 0.0, 0.0,-1.0));
+        light.setModel(new Mat4Transl(0.0, 0.8, 0.6));
+        light.setColor(new transforms.Col(0xffee88));
 
-        sphere.setTexture(Texture.fromFile("C:\\Users\\A\\Desktop\\New Z-Buff\\c03_brabec_adam\\src\\texture\\scratchedTexture.png"));
-        cube.setTexture(Texture.fromFile("C:\\Users\\A\\Desktop\\New Z-Buff\\c03_brabec_adam\\src\\texture\\pikaSmol.png"));
-        cone.setTexture(Texture.fromFile("C:\\Users\\A\\Desktop\\New Z-Buff\\c03_brabec_adam\\src\\texture\\triangleTexture.png"));
-        tetra.setTexture(Texture.fromFile("C:\\Users\\A\\Desktop\\New Z-Buff\\c03_brabec_adam\\src\\texture\\geometryTexture.png"));
+        sphere.setTexture(Texture.fromResource("scratchedTexture.png"));
+        cube.setTexture(Texture.fromResource("pikaSmol.png"));
+        cone.setTexture(Texture.fromResource("triangleTexture.png"));
+        tetra.setTexture(Texture.fromResource("geometryTexture.png"));
 
         initListeners();
 
@@ -205,6 +208,12 @@ public class Controller3D {
                         drawScene();
                         return;
                     }
+                    case KeyEvent.VK_P -> {
+                        perspective = !perspective;
+                        updateProjection();
+                        drawScene();
+                        return;
+                    }
 
                     default -> { return; }
                 }
@@ -212,17 +221,19 @@ public class Controller3D {
             }
         });
 
-        panel.addMouseWheelListener(new MouseWheelListener() {
-            @Override
-            public void mouseWheelMoved(MouseWheelEvent e) {
-                int notches = e.getWheelRotation(); 
+        panel.addMouseWheelListener(e -> {
+            int notches = e.getWheelRotation();
+
+            if (perspective) {
                 fov += notches * ZOOM_STEP;
-
                 fov = Math.max(Math.toRadians(15), Math.min(Math.toRadians(120), fov));
-
-                updateProjection();
-                drawScene();
+            } else {
+                orthoSize += notches * 0.2;
+                orthoSize = Math.max(0.5, Math.min(20.0, orthoSize));
             }
+
+            updateProjection();
+            drawScene();
         });
     }
 
@@ -240,20 +251,34 @@ public class Controller3D {
         renderer.renderSolid(sphere);
         renderer.renderSolid(tetra);
         renderer.renderSolid(cone);
+        renderer.renderSolid(light);
 
         panel.repaint();
     }
 
     private void updateProjection() {
-        double aspect = panel.getRaster().getHeight() / (double) panel.getRaster().getWidth();
-        proj = new Mat4PerspRH(
-                fov,
-                aspect,
-                0.1,
-                100
-        );
+        double k = panel.getRaster().getHeight() / (double) panel.getRaster().getWidth();
 
-        renderer.setProj(proj);  // předáme novou matici rendereru
+        if (perspective) {
+            proj = new Mat4PerspRH(
+                    fov,
+                    k,
+                    0.1,
+                    100
+            );
+        } else {
+            double h = orthoSize;
+            double w = h / k;
+
+            proj = new Mat4OrthoRH(
+                    w,
+                    h,
+                    0.1,
+                    100
+            );
+        }
+
+        renderer.setProj(proj);
     }
 
     private void moveActive(double dx, double dy, double dz) {

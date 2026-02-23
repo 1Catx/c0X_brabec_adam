@@ -58,6 +58,10 @@ public abstract class Solid {
         return ibTriangles;
     }
 
+    public void setColor(Col c) {
+        this.color = c;
+    }
+
     public void setTexture(Texture t) { 
         this.texture = t;
     }

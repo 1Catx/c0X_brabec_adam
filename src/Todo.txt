@@ -1,8 +1,3 @@
-Implementujte transformaci zobrazovacího objemu tj. projekci prostorové scény, možnost přepínání perspektivní a pravoúhlé projekce (klávesa P).
-
-Implementujte mapovaní textury na povrch těles. Každé těleso bude mít jinou texturu.
-Umožněte zapnutí a vypnutí textury na aktivním tělese. Ostatní tělesa v ten moment zůstanou v původním režimu.
-
 Implementujte osvětlení ve scéně (Phongův osvětlovací model). Do výpočtu zahrňte ambientní a difúzní složku. Spekulární složka bude počítána jako bonus.
 Pozici zdroje světla znázorněte jako kouli o vhodné velikosti. Barva koule bude odpovídat barvě difúzní složky.
 Zdroj světla lze zvolit jako aktivní těleso a aplikovat na něj modelovací transformaci posunutí.
