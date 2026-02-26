@@ -32,6 +32,5 @@ public class Tetrahedron extends Solid {
         addTriangle(0, 1, 3);
         addTriangle(0, 2, 3);
         addTriangle(1, 2, 3);
-
     }
 }

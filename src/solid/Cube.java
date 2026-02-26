@@ -45,28 +45,28 @@ public class Cube extends Solid {
 
         // === triangle index buffer ===
         // spodní stěna
-        addTriangle(0, 2, 1);
-        addTriangle(0, 3, 2);
+        addTriangle(0, 1, 2);
+        addTriangle(0, 2, 3);
 
         // horní stěna
-        addTriangle(4, 5, 6);
-        addTriangle(4, 6, 7);
+        addTriangle(4, 6, 5);
+        addTriangle(4, 7, 6);
 
         // přední stěna
-        addTriangle(0, 1, 5);
-        addTriangle(0, 5, 4);
+        addTriangle(0, 5, 1);
+        addTriangle(0, 4, 5);
 
         // zadní stěna
-        addTriangle(3, 6, 2);
-        addTriangle(3, 7, 6);
+        addTriangle(3, 2, 6);
+        addTriangle(3, 6, 7);
 
         // levá stěna
-        addTriangle(0, 7, 3);
-        addTriangle(0, 4, 7);
+        addTriangle(0, 3, 7);
+        addTriangle(0, 7, 4);
 
         // pravá stěna
-        addTriangle(1, 2, 6);
-        addTriangle(1, 6, 5);
+        addTriangle(1, 6, 2);
+        addTriangle(1, 5, 6);
 
         //mapování UV
         for (Point3D p : vb) {
@@ -75,5 +75,4 @@ public class Cube extends Solid {
             vtb.add(new Vec2D(u, v));
         }
     }
-
 }

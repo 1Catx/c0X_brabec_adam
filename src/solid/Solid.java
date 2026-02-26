@@ -17,6 +17,9 @@ public abstract class Solid {
     protected Mat4 model = new Mat4Identity();
     protected Texture texture;
     private boolean textureEnabled = false;
+    private boolean emissive = false;
+
+
 
 
     public List<Point3D> getVb() {
@@ -76,5 +79,14 @@ public abstract class Solid {
 
     public void toggleTexture() {
         textureEnabled = !textureEnabled;
+    }
+
+    public boolean isEmissive() { 
+        return emissive; 
+    
+    }
+    
+    public void setEmissive(boolean emissive) { 
+        this.emissive = emissive; 
     }
 }

@@ -17,7 +17,8 @@ public class TriangleRasterizer {
         return (px - ax) * (by - ay) - (py - ay) * (bx - ax);
     }
 
-    public void rasterize(VertexOut a, VertexOut b, VertexOut c, Col fallbackColor, Texture texture) {
+    public void rasterize(VertexOut a, VertexOut b, VertexOut c, Col fallbackColor, Texture texture,
+        double ndotl, Col lightColor,double ambientK, double diffuseK) {
         int minX = (int) Math.floor(Math.min(a.x, Math.min(b.x, c.x)));
         int maxX = (int) Math.ceil (Math.max(a.x, Math.max(b.x, c.x)));
         int minY = (int) Math.floor(Math.min(a.y, Math.min(b.y, c.y)));
@@ -58,8 +59,14 @@ public class TriangleRasterizer {
                     }
                 }
 
-                zbuffer.setPixelWithZTest(x, y, z, out);
-            }
+                double d = Math.max(0.0, Math.min(1.0, ndotl));
+                Col ambient = out.mulna(ambientK);
+                Col diffuse = out.mul(lightColor).mulna(diffuseK * d);
+
+                Col lit = ambient.addna(diffuse).saturate();
+                lit = new Col(0xff000000 | lit.getRGB());
+                zbuffer.setPixelWithZTest(x, y, z, lit);
+            } 
         }
     }
 }

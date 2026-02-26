@@ -9,12 +9,14 @@ import raster.ZBuffer;
 import texture.Texture;
 
 import transforms.Camera;
+import transforms.Col;
 import transforms.Mat4;
 import transforms.Mat4OrthoRH;
 import transforms.Mat4PerspRH;
 import transforms.Mat4RotX;
 import transforms.Mat4RotY;
 import transforms.Mat4Transl;
+import transforms.Point3D;
 import transforms.Vec3D;
 
 import java.awt.event.KeyAdapter;
@@ -92,11 +94,13 @@ public class Controller3D {
         solids = new Solid[] {sphere, cube, cone, tetra, light};
 
         cube.setModel(new Mat4Transl(1.8, 0.0, 0.0));
-        sphere.setModel(new Mat4Transl(1.8, 0.0, 0.0));
+        sphere.setModel(new Mat4Transl(1.8, 0.0, -0.2));
         tetra.setModel(new Mat4Transl( 0.5, 0.2, 0.0));
         cone.setModel (new Mat4Transl( 0.0, 0.0,-1.0));
         light.setModel(new Mat4Transl(0.0, 0.8, 0.6));
-        light.setColor(new transforms.Col(0xffee88));
+        light.setColor(new Col(0xffffff));
+
+        light.setEmissive(true);
 
         sphere.setTexture(Texture.fromResource("scratchedTexture.png"));
         cube.setTexture(Texture.fromResource("pikaSmol.png"));
@@ -252,6 +256,10 @@ public class Controller3D {
         renderer.renderSolid(tetra);
         renderer.renderSolid(cone);
         renderer.renderSolid(light);
+
+        Point3D lightWorldP = new Point3D(0, 0, 0).mul(light.getModel());
+        Vec3D lightWorld = new Vec3D(lightWorldP);
+        renderer.setLight(lightWorld, light.getColor());
 
         panel.repaint();
     }

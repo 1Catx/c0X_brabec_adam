@@ -1,3 +1,0 @@
-Implementujte osvětlení ve scéně (Phongův osvětlovací model). Do výpočtu zahrňte ambientní a difúzní složku. Spekulární složka bude počítána jako bonus.
-Pozici zdroje světla znázorněte jako kouli o vhodné velikosti. Barva koule bude odpovídat barvě difúzní složky.
-Zdroj světla lze zvolit jako aktivní těleso a aplikovat na něj modelovací transformaci posunutí.

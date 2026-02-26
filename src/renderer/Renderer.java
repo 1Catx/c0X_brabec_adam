@@ -9,6 +9,7 @@ import texture.Texture;
 import transforms.Mat4;
 import transforms.Point3D;
 import transforms.Vec3D;
+import transforms.Col;
 
 public class Renderer {
     public enum RenderMode { WIREFRAME, FILLED }
@@ -18,6 +19,12 @@ public class Renderer {
     private final ZBuffer zbuffer;
     private int width, heigth;
     private Mat4 view, proj;
+
+    private Vec3D lightPos = new Vec3D(0, 0, 0);
+    private Col lightColor = new Col(0xffffff);
+
+    private double ambientK = 0.2;
+    private double diffuseK = 1.0;
 
     public Renderer(LineRasterizer lineRasterizer, ZBuffer zbuffer, int width, int heigth, Mat4 view, Mat4 proj) {
         this.lineRasterizer = lineRasterizer;
@@ -82,6 +89,39 @@ public class Renderer {
             Point3D pb = solid.getVb().get(ib);
             Point3D pc = solid.getVb().get(ic);
 
+            double ndotl;
+            Col lc;
+            double aK;
+            double dK;
+
+            if (solid.isEmissive()) {
+                ndotl = 0.0;
+                lc = new Col(0xffffff);
+                aK = 1.0;
+                dK = 0.0;
+            } else {
+                // world pozice vrcholů (model transform)
+                Vec3D aW = new Vec3D(pa.mul(solid.getModel()));
+                Vec3D bW = new Vec3D(pb.mul(solid.getModel()));
+                Vec3D cW = new Vec3D(pc.mul(solid.getModel()));
+
+                // normála trojúhelníku (world)
+                Vec3D n = cW.sub(aW).cross(bW.sub(aW)).normalized().orElse(new Vec3D(0, 0, 1));
+
+                // bod na trojúhelníku (střed)
+                Vec3D center = aW.add(bW).add(cW).mul(1.0 / 3.0);
+
+                // směr ke světlu
+                Vec3D l = lightPos.sub(center).normalized().orElse(new Vec3D(0, 0, 1));
+
+                // Lambert (difúzní složka)
+                ndotl = Math.max(0.0, n.dot(l));
+
+                lc = lightColor;
+                aK = ambientK;
+                dK = diffuseK;
+            }
+
             // UV z vtb (musí existovat a mít stejnou délku jako vb)
             var uva = solid.getVtb().get(ia);
             var uvb = solid.getVtb().get(ib);
@@ -119,7 +159,9 @@ public class Renderer {
                     invWC, uvc.getX() * invWC, uvc.getY() * invWC);
 
             Texture tex = solid.isTextureEnabled() ? solid.getTexture() : null;
-            triangleRasterizer.rasterize(sa, sb, sc, solid.getColor(), tex);
+
+            triangleRasterizer.rasterize(sa, sb, sc, solid.getColor(), tex,
+                ndotl, lc, aK, dK);
         }
     }
 
@@ -182,5 +224,15 @@ public class Renderer {
         if (Math.abs(w) < 1e-6) return null;
 
         return out;
+    }
+
+    public void setLight(Vec3D pos, Col color) {
+        this.lightPos = pos;
+        this.lightColor = color;
+    }
+
+    public void setLightCoefficients(double ambientK, double diffuseK) {
+        this.ambientK = ambientK;
+        this.diffuseK = diffuseK;
     }
 }
